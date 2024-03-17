@@ -1,0 +1,76 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "CreateOrChangeOnlyWithBoundary",
+            "Effect": "Deny",
+            "Action": [
+                "iam:CreateUser",
+                "iam:CreateRole",
+                "iam:PutRolePermissionsBoundary",
+                "iam:PutUserPermissionsBoundary"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotLike": {
+                    "iam:PermissionsBoundary": "arn:aws:iam::*:policy/pb-level3"
+                }
+            }
+        },
+        {
+            "Sid": "NoBoundaryPolicyEditOrDelete",
+            "Effect": "Deny",
+            "Action": [
+                "iam:CreatePolicyVersion",
+                "iam:DeletePolicy",
+                "iam:DeletePolicyVersion",
+                "iam:SetDefaultPolicyVersion"
+            ],
+            "Resource": [
+                "arn:aws:iam::*:policy/pb-level*"
+            ]
+        },
+        {
+            "Sid": "NoBoundaryUserDelete",
+            "Effect": "Deny",
+            "Action": [
+                "iam:DeleteUserPermissionsBoundary",
+                "iam:DeleteRolePermissionsBoundary"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Action": [
+                "iam:*",
+                "ec2:*",
+                "cloudwatch:*",
+                "s3:*",
+                "logs:*",
+                "ec2-instance-connect:*",
+                "cloudshell:*",
+                "rds:*",
+                "dynamodb:*",
+                "sqs:*",
+                "sns:*",
+                "ecs:*",
+                "xray:*",
+                "elasticache:*",
+                "codepipeline:*",
+                "codebuild:*",
+                "codedeploy:*",
+                "codecommit:*",
+                "amplify:*",
+                "cognito-identity:*",
+                "cognito-idp:*",
+                "cognito-sync:*",
+                "apigateway:*",
+                "lambda:*",
+                "cloudformation:*",
+                "eks:*",
+                "ecr:*"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        }
+    ]
+}
